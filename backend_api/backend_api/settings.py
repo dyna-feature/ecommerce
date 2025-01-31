@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*+w4uhak18bh-9189gtuqw_ia5p&w$4fv+z^761@s^y7vgymdq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.18.34.169','127.0.0.1']
+ALLOWED_HOSTS = ['172.18.35.28','127.0.0.1']
 
 
 # Application definition
@@ -39,11 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -130,14 +133,23 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ],
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework_simplejwt.authentication.JWTAuthentication',
     # ),
 
-    #kita pakai custom pagination, file ada di pagination.py trus include kan nya ada nama_app.pagination.CustomPagination (tutorial ada di web drf)
-    'DEFAULT_PAGINATION_CLASS': 'main.pagination.CustomPagination',
-    'PAGE_SIZE': 10
+    # #kita pakai custom pagination, file ada di pagination.py trus include kan nya ada nama_app.pagination.CustomPagination (tutorial ada di web drf)
+    # 'DEFAULT_PAGINATION_CLASS': 'main.pagination.CustomPagination',
+    # 'PAGE_SIZE': 10
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 1
 }
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000",
+    "http://172.18.35.28:3000",
+    "http://localhost:3000",
+]

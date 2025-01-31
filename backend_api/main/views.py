@@ -50,3 +50,7 @@ class CustomerAddressViewset(viewsets.ModelViewSet):
 class ProductRatingViewset(viewsets.ModelViewSet):
     serializer_class=serializers.ProductRatingSerializer
     queryset=models.ProductRating.objects.all()
+
+class ProductCategoryViewset(viewsets.ModelViewSet):
+    serializer_class=serializers.ProductCategorySerializer
+    queryset=models.ProductCategory.objects.all()

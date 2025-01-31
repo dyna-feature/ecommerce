@@ -64,3 +64,9 @@ class ProductRatingSerializer(serializers.ModelSerializer):
         model=models.ProductRating
         fields=['id', 'customer' ,'product', 'rating', 'reviews', 'add_time']
         depth = 1
+
+class ProductCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.ProductCategory
+        fields=['id', 'title' ,'detail']
+        depth = 1
