@@ -6,9 +6,9 @@ function SingleProduct(props) {
             {/* begin latest Product Box */}
             <div className="col-12 col-md-3 mb-4">
                 <div className="card">
-                    <Link to="/product/python-2/111"><img src={logo} className="crd-img-top" /></Link>
+                    <Link to={`/product/${props.product.title}/${props.product.id}`}><img src={logo} className="crd-img-top" /></Link>
                     <div className="card-body">
-                        <h4 className="card-title"><Link to="/product/python-2/111">{props.product.title}</Link></h4>
+                        <h4 className="card-title"><Link to={`/product/${props.product.title}/${props.product.id}`}>{props.product.title}</Link></h4>
                         <h5 className="card-title">Price: Rp {props.product.price}</h5>
                     </div>
                     <div className="card-footer">

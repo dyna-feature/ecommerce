@@ -1,8 +1,31 @@
 import { Link } from "react-router-dom";
 import logo from "../logo.svg";
 import SingleProduct from "./SingleProduct";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function ProductDetail() {
+    const baseUrl = 'http://127.0.0.1:8000/api'
+    const { product_slug, product_id } = useParams()
+    const [productData, setProductData] = useState([])
+    const [productImgs, setproductImgs] = useState([])
+
+    useEffect(() => {
+        fetchData(baseUrl + '/product/' + product_id);
+    }, []);
+
+    function fetchData(baseurl) {
+        fetch(baseurl)
+            .then(response => response.json())
+            .then(data => {
+                // console.log(data);
+                setProductData(data)
+                setproductImgs(data.product_imgs)
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+
     return (
         <section className="container mt-4">
             <div className="row">
@@ -11,24 +34,33 @@ function ProductDetail() {
 
                         <div id="ProductDetailIndicator" className="carousel carousel-dark slide">
                             <div className="carousel-indicators">
-                                <button type="button" data-bs-target="#ProductDetailIndicator" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#ProductDetailIndicator" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#ProductDetailIndicator" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                {productImgs.map((img, index) => {
+                                    if (index === 0) {
+                                        return <button type="button" data-bs-target="#ProductDetailIndicator" data-bs-slide-to={index} className="active" aria-current="true" aria-label="Slide 1"></button>
+                                    } else {
+                                        return <button type="button" data-bs-target="#ProductDetailIndicator" data-bs-slide-to={index} aria-label="Slide"></button>
+
+                                    }
+                                })}
+
                             </div>
 
                             <div className="carousel-inner">
+                                {productImgs.map((img, index) => {
+                                    if (index === 0) {
+                                        return <div className=" carousel-item active ">
+                                            <img src={img.image} alt="product-detail" className="crd-img-top img-thumbnail  mb-5" />
+                                        </div>
+                                    }
+                                    else {
+                                        return <div className=" carousel-item">
+                                            <img src={img.image} alt="product-detail" className="crd-img-top img-thumbnail  mb-5" />
+                                        </div>
+                                    }
+                                })}
 
-                                <div className=" carousel-item active ">
-                                    <img src={logo} alt="product-detail" className="crd-img-top img-thumbnail  mb-5" />
-                                </div>
 
 
-                                <div className="carousel-item ">
-                                    <img src={logo} alt="product-detail" className="crd-img-top img-thumbnail  mb-5" />
-                                </div>
-                                <div className="carousel-item ">
-                                    <img src={logo} alt="product-detail" className="crd-img-top img-thumbnail mb-5" />
-                                </div>
                             </div>
                             <button className="carousel-control-prev " type="button" data-bs-target="#ProductDetailIndicator" data-bs-slide="prev">
                                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -42,9 +74,9 @@ function ProductDetail() {
                     </div>
                 </div>
                 <div className="col-8">
-                    <h3>Product name</h3>
-                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    <div className="card-title">Rp :9000</div>
+                    <h3>{productData.title}</h3>
+                    <p> {productData.detail}</p>
+                    <div className="card-title">Price: Rp. {productData.price}</div>
                     <p className="mt-3">
                         <Link target="__blank" className="btn btn-info btn-sm text-decoration-none">
                             <i className="fa-solid fa-desktop"></i> Demo
@@ -68,8 +100,9 @@ function ProductDetail() {
                     </p>
                 </div>
             </div>
+
             {/* begin related product */}
-            <div className="row mb-4">
+            {/* <div className="row mb-4">
                 <h4 className="fw-bold">
                     Related Product
                 </h4>
@@ -109,17 +142,18 @@ function ProductDetail() {
                             </div>
                         </div>
                     </div>
-                    {/* <button className="carousel-control-prev " type="button" data-bs-target="#relatedProductIndicator" data-bs-slide="prev">
+                    <button className="carousel-control-prev " type="button" data-bs-target="#relatedProductIndicator" data-bs-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Previous</span>
                     </button>
                     <button className="carousel-control-next" type="button" data-bs-target="#relatedProductIndicator" data-bs-slide="next">
                         <span className="carousel-control-next-icon" aria-hidden="true"></span>
                         <span className="visually-hidden">Next</span>
-                    </button> */}
+                    </button>
                 </div>
-            </div>
+            </div> */}
             {/* end related product */}
+
         </section>
 
     )

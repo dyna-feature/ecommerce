@@ -3,6 +3,20 @@ import logo from "../logo.svg";
 import SingleProduct from "./SingleProduct";
 
 function Home() {
+    const products = [
+        {
+            'title': 'Django',
+            'price': 900,
+        },
+        {
+            'title': 'JS',
+            'price': 200,
+        },
+        {
+            'title': 'PHP',
+            'price': 111,
+        }
+    ]
     return (
         <main>
             <div className="container mt-3">
@@ -14,14 +28,12 @@ function Home() {
                             <i className="fa-solid fa-arrow-right-from-bracket ms-2"></i>
                         </Link>
                     </h4>
-                    <SingleProduct title="Python Hacking" />
-                    <SingleProduct title="Php Date Picker" />
-                    <SingleProduct title="Javascript For Loops" />
-                    <SingleProduct title="Python For Loops" />
-                    <SingleProduct />
-                    <SingleProduct />
-                    <SingleProduct />
-                    <SingleProduct />
+                    {
+                        products.map((product) => <SingleProduct product={product} />)
+
+                    }
+
+
                 </div>
 
                 {/* Popular Cateories */}

@@ -19,12 +19,21 @@ class ProductSeralizer(serializers.ModelSerializer):
         fields=['id','category','vendor','title', 'detail', 'price']
         # depth = 1
 
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.ProductImage
+        fields=['id','product','image']
+        # depth = 1
+
+
 class ProductDetailSerializer(serializers.ModelSerializer):
     # product_ratings ini diambil dari related_name yang ada di ProductRating Models, namanya harus sama
-    product_ratings=serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    product_ratings=serializers.StringRelatedField(many=True, read_only=True)
+    # product_imgs ini diambil dari related_name yang ada di ProductImage Models, namanya harus sama
+    product_imgs=ProductImageSerializer(many=True, read_only=True)
     class Meta:
         model=models.Product
-        fields=['id','category','vendor','title', 'detail', 'price', 'product_ratings']
+        fields=['id','category','vendor','title', 'detail', 'price', 'product_ratings', 'product_imgs']
         depth = 1
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -70,3 +79,5 @@ class ProductCategorySerializer(serializers.ModelSerializer):
         model=models.ProductCategory
         fields=['id', 'title' ,'detail']
         depth = 1
+
+

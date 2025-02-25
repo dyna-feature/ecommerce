@@ -15,9 +15,32 @@ class ProductList(generics.ListCreateAPIView):
     queryset=models.Product.objects.all()
     serializer_class=serializers.ProductSeralizer
 
+    # def get_queryset(self):
+    #     qs=super().get_queryset()
+    #     # category=self.request.GET['category']
+    #     category=self.request.GET.get('category')
+    #     category=models.ProductCategory.objects.get(id=category)
+    #     qs=qs.filter(category=category)
+    #     return qs
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        category_id = self.request.GET.get('category')
+
+        if category_id:
+            qs = qs.filter(category_id=category_id)
+
+        return qs
+
+
+
 class ProductDetailList(generics.RetrieveUpdateDestroyAPIView):
     queryset=models.Product.objects.all()
     serializer_class=serializers.ProductDetailSerializer
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset=models.ProductCategory.objects.all()
+    serializer_class=serializers.ProductCategorySerializer
 
 class CustomerList(generics.ListCreateAPIView):
     queryset=models.Customer.objects.all()
@@ -51,6 +74,6 @@ class ProductRatingViewset(viewsets.ModelViewSet):
     serializer_class=serializers.ProductRatingSerializer
     queryset=models.ProductRating.objects.all()
 
-class ProductCategoryViewset(viewsets.ModelViewSet):
-    serializer_class=serializers.ProductCategorySerializer
-    queryset=models.ProductCategory.objects.all()
+# class ProductCategoryViewset(viewsets.ModelViewSet):
+#     serializer_class=serializers.ProductCategorySerializer
+#     queryset=models.ProductCategory.objects.all()

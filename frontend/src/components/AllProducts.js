@@ -48,7 +48,9 @@ function AllProducts() {
 
     // membuat link untuk pagination, nanti dipanggil di bawah di halaman return variable links nya
     var links = [];
-    for (let i = 1; i <= totalResults; i++) {
+    var limit = 1
+    var totalLinks = totalResults / limit
+    for (let i = 1; i <= totalLinks; i++) {
         links.push(<li class="page-item"><Link class="page-link" onClick={() => changeUrl(baseUrl + `/products/?page=${i}`)} to={`/products/?page=${i}`}>{i}</Link></li>)
     }
 
